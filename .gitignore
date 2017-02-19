@@ -16,7 +16,6 @@ coverage
 
 .lock-wscript
 node_modules
-build
 build-cache
 
 .npm
