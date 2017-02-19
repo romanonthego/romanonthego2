@@ -15,8 +15,9 @@ coverage
 .grunt
 
 .lock-wscript
-node_modules
-build-cache
+/node_modules
+/build
+/build-cache
 
 .npm
 
