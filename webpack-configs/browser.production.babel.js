@@ -25,7 +25,6 @@ export default {
 
   module: {
     rules: [
-      ...config.module.rules,
       ...config.module.rulesProduction,
     ]
   },

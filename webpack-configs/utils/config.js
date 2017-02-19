@@ -6,6 +6,7 @@ import StatsPlugin from 'stats-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import composeGlobals from './composeGlobals'
 import globals from './globals'
+import babelOptions from './babelOptions'
 
 const __DIR = path.resolve('./')
 
@@ -99,28 +100,7 @@ export default {
         use: [
           {
             loader: 'babel-loader',
-            options: {
-              presets: [
-                'react',
-                'es2015',
-                'stage-2',
-                [
-                  'env',
-                  {
-                    targets: {
-                      node: 7,
-                    },
-                    loose: true,
-                  }
-                ],
-              ],
-              plugins: [
-                'add-module-exports',
-                'transform-react-constant-elements',
-                'transform-react-inline-elements',
-                'syntax-dynamic-import',
-              ]
-            },
+            options: babelOptions({useModules: true}),
           },
         ],
       },
@@ -142,35 +122,23 @@ export default {
           },
           {
             loader: 'babel-loader',
-            options: {
-              presets: [
-                'react',
-                // ['es2015', {modules: false}],
-                // 'stage-2',
-                [
-                  'env',
-                  {
-                    targets: {
-                      chrome: 56,
-                    },
-                    modules: false,
-                    loose: true,
-                  }
-                ],
-              ],
-              plugins: [
-                'add-module-exports',
-                'transform-react-constant-elements',
-                'transform-react-inline-elements',
-                'syntax-dynamic-import',
-              ],
-            },
+            options: babelOptions(),
           },
         ],
         exclude: nodeModulesRegex,
       },
     ],
     rulesProduction: [
+      {
+        test: /\.js|jsx$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions({addReactOptimization: true}),
+          },
+        ],
+        exclude: nodeModulesRegex,
+      },
       {
         test: /\.styl$/,
         use: ExtractTextPlugin.extract({
