@@ -92,11 +92,24 @@ export default {
   },
 
   module: {
-    rules: [
+    rulesServer: [
       {
         test: /\.js|jsx$/,
-        use: ['babel-loader'],
         exclude: nodeModulesRegex,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['react', 'es2015', 'stage-2'],
+              plugins: [
+                'add-module-exports',
+                'transform-react-constant-elements',
+                'transform-react-inline-elements',
+                'syntax-dynamic-import',
+              ]
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
@@ -107,6 +120,25 @@ export default {
       {
         test: /.styl$/,
         use: [{loader: 'style-loader'}, ...stylesLoaders],
+      },
+      {
+        test: /\.js|jsx$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['react', ['es2015', {modules: false}], 'stage-2'],
+              plugins: [
+                'add-module-exports',
+                'transform-react-constant-elements',
+                'transform-react-inline-elements',
+                'syntax-dynamic-import',
+                'react-hot-loader/babel',
+              ],
+            },
+          },
+        ],
+        exclude: nodeModulesRegex,
       },
     ],
     rulesProduction: [

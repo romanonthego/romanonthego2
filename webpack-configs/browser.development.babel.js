@@ -30,7 +30,6 @@ export default {
   module: {
     rules: [
       ...config.module.rulesHot,
-      ...config.module.rules,
     ]
   },
 

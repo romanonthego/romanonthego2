@@ -74,6 +74,14 @@ export default class IndexPage extends PureComponent {
     return (
       <SiteWrap displayHeader={false} displayFooter={this.shouldRender(6)}>
         <Section className={css.section}>
+          <TextScramble
+            className={css.title}
+            element="h1"
+            onDone={this.handleNextStep}
+            onDoneTimeout={800}
+          >
+            {this.shouldRender(1) ? 'Hello there' : 'Oh'}
+          </TextScramble>
 
           {this.shouldRender(2) && (
             <main>
@@ -174,7 +182,7 @@ export default class IndexPage extends PureComponent {
                   data-title="https://blog.uploadcare.com/"
                   data-use-title
                 >
-                  uploadcare-loader
+                  uploadcare-loader!
                 </LinkScramble>
               </LinksList>
             </main>
