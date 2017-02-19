@@ -100,7 +100,20 @@ export default {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['react', 'es2015', 'stage-2'],
+              presets: [
+                'react',
+                'es2015',
+                'stage-2',
+                [
+                  'env',
+                  {
+                    targets: {
+                      node: 7,
+                    },
+                    loose: true,
+                  }
+                ],
+              ],
               plugins: [
                 'add-module-exports',
                 'transform-react-constant-elements',
@@ -125,15 +138,31 @@ export default {
         test: /\.js|jsx$/,
         use: [
           {
+            loader: 'react-hot-loader'
+          },
+          {
             loader: 'babel-loader',
             options: {
-              presets: ['react', ['es2015', {modules: false}], 'stage-2'],
+              presets: [
+                'react',
+                // ['es2015', {modules: false}],
+                // 'stage-2',
+                [
+                  'env',
+                  {
+                    targets: {
+                      chrome: 56,
+                    },
+                    modules: false,
+                    loose: true,
+                  }
+                ],
+              ],
               plugins: [
                 'add-module-exports',
                 'transform-react-constant-elements',
                 'transform-react-inline-elements',
                 'syntax-dynamic-import',
-                'react-hot-loader/babel',
               ],
             },
           },

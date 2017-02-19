@@ -13,7 +13,6 @@ export default {
 
   entry: {
     app: [
-      'react-hot-loader/patch',
       'webpack-hot-middleware/client?overlay=true&reload=false',
       './app/browser.js',
     ],

@@ -29,7 +29,7 @@ export default class ControlPanel extends PureComponent {
       <Section element="nav" paddingBottom={false} className={css.wrap}>
         <main className={css.status}>
           <span className={css.statusText}>
-            {loading ? 'loading' : 'loaded'}
+            {loading ? 'loading' : 'loaded!'}
           </span>
 
           <LoadingBar loading={loading} />
@@ -41,7 +41,7 @@ export default class ControlPanel extends PureComponent {
           </li>
           <li>
             <ExternalLink
-              to={`https://github.com/romanonthego/romanonthego/commit/${commitLong}`}
+              to={`https://github.com/romanonthego/romanonthego2/commit/${commitLong}`}
               data-hide-tooltip
             >
               #{commitShort}
