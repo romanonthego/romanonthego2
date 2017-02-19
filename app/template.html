@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="content-language" content="en">
+  <meta http-equiv="language" content="en">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  {{#GLOBALS.GA}}
+    <link rel="dns-prefetch" href="//www.google-analytics.com/">
+    <link rel="prefetch" href="https://www.google-analytics.com/analytics.js">
+  {{/GLOBALS.GA}}
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css?family=Overpass+Mono:300" rel="stylesheet">
+
+  {{{title}}}
+
+  {{#meta}}
+    {{{meta}}}
+  {{/meta}}
+
+  {{#link}}
+    {{{link}}}
+  {{/link}}
+
+  {{#script}}
+    {{{script}}}
+  {{/script}}
+
+  {{#statics.css}}
+    <link rel="stylesheet" href="/assets/{{statics.css}}">
+  {{/statics.css}}
+
+  {{#initialState}}
+    <script>
+      window.__INITIAL_STATE__ = {{{initialState}}};
+    </script>
+  {{/initialState}}
+</head>
+<body>
+  <main id="app">{{{html}}}</main>
+
+  {{#statics.common}}
+    <script src="/assets/{{statics.common}}" async></script>
+  {{/statics.common}}
+
+  {{#statics.app}}
+    <script src="/assets/{{statics.app}}" async></script>
+  {{/statics.app}}
+
+  {{#GLOBALS.GA}}
+    <script>
+      var dimensions = {
+        TRACKING_VERSION: 'dimension1',
+        CLIENT_ID: 'dimension2',
+      };
+
+      var TRACKING_VERSION = '{{GLOBALS.VERSION}}';
+
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', '{{GLOBALS.GA}}', '{{GLOBALS.GA_MODE}}');
+      ga('require', 'displayfeatures');
+      ga('set', 'transport', 'beacon');
+      ga('set', dimensions.TRACKING_VERSION, TRACKING_VERSION);
+      ga(function(tracker) {
+        tracker.set(dimensions.CLIENT_ID, tracker.get('clientId'));
+      });
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+  {{/GLOBALS.GA}}
+</body>
+</html>

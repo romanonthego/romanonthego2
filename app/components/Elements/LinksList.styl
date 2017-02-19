@@ -1,0 +1,58 @@
+$itemsInColum = 4
+
+.list
+  counter-reset: linksList
+  list-style: none
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  align-items: flex-start
+  width: x(800)
+  // flex: 1 1 auto
+  // column-count: 2
+  // column-gap: x(20)
+
+  +media('tablet')
+    width: 100%
+
+  +media('phone')
+    width: 100%
+    max-height: none
+
+.wrapped
+  height: 1.6em * $itemsInColum
+  max-height: 1.6em * $itemsInColum
+  flex-wrap: wrap
+
+  +media('phone')
+    height: auto
+    max-height: none
+    flex-wrap: nowrap
+
+.item
+  counter-increment: linksList
+  display: flex
+  flex-direction: row
+  justify-content: flex-start
+  align-items: center
+  margin-bottom: 0.6em
+  height: 1em
+
+  &:nth-child(4n)
+    column-span: all
+
+  &:last-child
+    margin-bottom: 0
+
+  &:before
+    content: counter(linksList, decimal-leading-zero) '·'
+    opacity: 0.4
+    margin-right: x(5)
+
+.addMore
+  opacity: 0.4
+  &:before
+    content: '···'
+    pointer-events: none
+
+apply_media_cache()
