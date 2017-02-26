@@ -1,5 +1,5 @@
 import React, {PureComponent, PropTypes} from 'react'
-import {Link} from 'react-router'
+import {Link} from 'react-router/es'
 import ExternalLink from './ExternalLink'
 import TextScramble from './TextScramble'
 // import cx from 'classnames'

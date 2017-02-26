@@ -1,7 +1,5 @@
 import React from 'react'
-import {Route} from 'react-router/es'
-// wrapper
-import Wrap from './Wrap'
+import {Route} from 'react-router'
 // pages
 import IndexPage from 'app/components/Pages/IndexPage.connector'
 // playground
@@ -10,7 +8,8 @@ import TextScramble from 'app/components/Pages/Playground/TextScramble'
 // errors
 import NotFoundPage from 'app/components/Pages/Errors/NotFoundPage'
 import ServerErrorPage from 'app/components/Pages/Errors/ServerErrorPage'
-
+// wrapper
+import Wrap from './Wrap'
 
 export default (
   <Route component={Wrap}>

@@ -4,7 +4,7 @@ import css from './Divider.styl'
 
 export default class Divider extends PureComponent {
   static propTypes = {
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
   }
 
   render() {

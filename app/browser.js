@@ -4,7 +4,7 @@ import 'app/styles/app.styl'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import {Provider} from 'react-redux'
-import {Router, browserHistory} from 'react-router'
+import {Router, browserHistory} from 'react-router/es'
 import {ReduxAsyncConnect} from 'redux-connect'
 import createStore from 'app/flux/stores'
 import routes from 'app/routes'
@@ -14,6 +14,7 @@ const {
   store,
   history,
 } = createStore(browserHistory, window.__INITIAL_STATE__)
+
 
 const app = (
   <Provider store={store} key="provider">

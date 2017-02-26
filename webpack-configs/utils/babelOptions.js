@@ -3,42 +3,49 @@ export default function(options = {}) {
     useModules = false,
     stage = 2,
     addReactOptimization = false,
+    node = false,
   } = options
 
-  const es2015preset = useModules ? 'es2015' : ['es2015', {modules: false}]
+  let plugins = [
+    'add-module-exports',
+    'transform-runtime',
+    'syntax-dynamic-import',
+    ['transform-object-rest-spread',{"useBuiltIns": true}],
+    'transform-class-properties',
+  ]
 
-  // const plugins = [
-  //   'add-module-exports',
-  //   'syntax-dynamic-import',
-  // ]
+  if (addReactOptimization) {
+    plugins = [
+      ...plugins,
+      'transform-react-constant-elements',
+      'transform-react-inline-elements'
+    ]
+  }
 
-  const envPreset = ['env', {
-    targets: {
-      browsers: {
-        chrome: 52
-      }
-    },
-    loose: true,
-    modules: useModules,
-    debug: true,
-    "useBuiltIns": true,
-  }]
+  const envTargets = node ? {node: 7} : {
+    chrome: 56,
+    safari: 10,
+    firefox: 51,
+    // edge: 14
+  }
+
+  const presets = [
+    'react',
+    ['env',
+      {
+        targets: envTargets,
+        loose: true,
+        modules: useModules ? 'commonjs' : false,
+        debug: false,
+        useBuiltIns: true,
+      },
+    ],
+  ]
 
   return {
-    presets: [
-      'react',
-      // es2015preset,
-      // `stage-${stage}`,
-      envPreset,
-    ],
-    plugins: [
-      // 'add-module-exports',
-      'transform-runtime',
-      // ...(addReactOptimization ? ['transform-react-constant-elements', 'transform-react-inline-elements'] : []),
-      'syntax-dynamic-import',
-      // ["transform-object-rest-spread",{"useBuiltIns": true}],
-      "transform-class-properties",
-      // "transform-export-extensions",
-    ]
+    presets,
+    plugins,
+    // ignore: [],
+    // babelrc: false,
   }
 }

@@ -11,9 +11,12 @@ export default function excludeNodeModules() {
   fs.readdirSync('node_modules')
     .filter((pkg) => ['.bin'].indexOf(pkg) === -1)
     .filter((pkg) => !(/-es6/).test(pkg))
+    .filter((pkg) => pkg !== 'react' || pkg !== 'react-dom')
     .forEach((pkg) => {
       nodeModules[`${pkg}`] = `commonjs ${pkg}`
     })
+
+    console.log(nodeModules)
 
   return nodeModules
 }

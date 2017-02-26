@@ -3,7 +3,7 @@ import {StaggeredMotion, spring} from 'react-motion'
 import InlineSVG from 'svg-inline-react'
 import ThrottledEventsProvider from 'app/components/Providers/ThrottledEventsProvider'
 import css from './Me.styl'
-import me from '!!svg-inline-loader!./assets/me.svg'
+// import me from '!!svg-inline-loader!./assets/me.svg'
 import mePaths from './mePaths'
 
 const Path = ({d, fill, fillOpacity, opacity, x = 0, y = 0, i} = {}) => {
@@ -147,10 +147,6 @@ class Me extends PureComponent {
               }
             </StaggeredMotion>
           </svg>
-        )}
-
-        {!useDynamicVersion && (
-          <InlineSVG src={me} className={css.meStatic} />
         )}
       </aside>
     )

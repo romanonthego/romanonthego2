@@ -6,7 +6,7 @@ export default class LinksList extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     wrapped: PropTypes.bool,
-    addMore: PropTypes.oneOf([PropTypes.bool, PropTypes.string]),
+    addMore: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   }
 
   static defaultProps = {

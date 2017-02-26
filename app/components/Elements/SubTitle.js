@@ -5,7 +5,7 @@ import css from './SubTitle.styl'
 export default class SubTitle extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
-    element: PropTypes.oneOf([PropTypes.string, PropTypes.func]),
+    element: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     className: PropTypes.string,
   }
 
