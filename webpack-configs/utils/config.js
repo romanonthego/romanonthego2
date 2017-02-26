@@ -4,8 +4,13 @@ import path from 'path'
 import webpack from 'webpack'
 import StatsPlugin from 'stats-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import ClosureCompilerPlugin from 'webpack-closure-compiler'
+import BabiliWebpackPlugin from 'babili-webpack-plugin'
+import {BundleAnalyzerPlugin} from 'webpack-bundle-analyzer'
+import ProgressBarWebpackPlugin from 'progress-bar-webpack-plugin'
 import composeGlobals from './composeGlobals'
 import globals from './globals'
+import babelOptions from './babelOptions'
 
 const __DIR = path.resolve('./')
 
@@ -27,6 +32,7 @@ const composedGlobals = {
   GLOBALS: composeGlobals(globals)
 }
 
+// how we handle
 const stylesLoaders = [
   {
     loader: 'css-loader',
@@ -65,6 +71,11 @@ export default {
 
   performance: {
     hints: 'warning',
+    maxAssetSize: 250000,
+    maxEntrypointSize: 300000,
+    assetFilter: (assetFilename) => {
+      return assetFilename.endsWith('.js')
+    }
   },
 
   resolve: {
@@ -80,6 +91,8 @@ export default {
       build: path.join(__DIR, 'build'),
       server: path.join(__DIR, 'server'),
       'webpack-configs': path.join(__DIR, 'webpack-configs'),
+      'react': 'preact-compat',
+      'react-dom': 'preact-compat',
     },
   },
 
@@ -99,15 +112,7 @@ export default {
         use: [
           {
             loader: 'babel-loader',
-            options: {
-              presets: ['react', 'es2015', 'stage-2'],
-              plugins: [
-                'add-module-exports',
-                'transform-react-constant-elements',
-                'transform-react-inline-elements',
-                'syntax-dynamic-import',
-              ]
-            },
+            options: babelOptions({useModules: true, node: true}),
           },
         ],
       },
@@ -115,6 +120,10 @@ export default {
         test: /\.html$/,
         use: ['mustache-loader']
       },
+      {
+        test: /\.styl$/,
+        use: [{loader: 'null-loader'}, ...stylesLoaders],
+      }
     ],
     rulesHot: [
       {
@@ -125,23 +134,27 @@ export default {
         test: /\.js|jsx$/,
         use: [
           {
+            loader: 'react-hot-loader'
+          },
+          {
             loader: 'babel-loader',
-            options: {
-              presets: ['react', ['es2015', {modules: false}], 'stage-2'],
-              plugins: [
-                'add-module-exports',
-                'transform-react-constant-elements',
-                'transform-react-inline-elements',
-                'syntax-dynamic-import',
-                'react-hot-loader/babel',
-              ],
-            },
+            options: babelOptions(),
           },
         ],
         exclude: nodeModulesRegex,
       },
     ],
     rulesProduction: [
+      {
+        test: /\.js|jsx$/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: babelOptions({addReactOptimization: true}),
+          },
+        ],
+        exclude: nodeModulesRegex,
+      },
       {
         test: /\.styl$/,
         use: ExtractTextPlugin.extract({
@@ -155,7 +168,10 @@ export default {
   plugins: {
     commonChunk: new webpack.optimize.CommonsChunkPlugin({
       name: 'common',
-      minChunks: 2,
+      minChunks: function (module) {
+         // this assumes your vendor imports exist in the node_modules directory
+         return module.context && module.context.indexOf('node_modules') !== -1;
+      },
     }),
     extractCss: new ExtractTextPlugin({
       filename:'[name]@[contenthash:12].css',
@@ -188,5 +204,23 @@ export default {
       errorDetails: false,
       chunkOrigins: false,
     }),
+    babili: new BabiliWebpackPlugin({
+      evaluate: true,
+      deadcode: true,
+      infinity: true,
+      mangle: true,
+      numericLiterals: true,
+      replace: true,
+      simplify: true,
+      mergeVars: true,
+      booleans: true,
+      regexpConstructors: true,
+      removeConsole: true,
+      removeDebugger: true,
+      removeUndefined: true,
+      undefinedToVoid: true,
+    }),
+    bundleAnalyzer: new BundleAnalyzerPlugin(),
+    progressBar: new ProgressBarWebpackPlugin(),
   },
 }

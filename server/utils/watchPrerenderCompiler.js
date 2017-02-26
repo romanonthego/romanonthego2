@@ -1,7 +1,17 @@
+import path from 'path'
+import 'colors'
 import fileSystem from 'fs'
 import MemoryFS from 'memory-fs'
-import requireFromString from 'requireFromString'
-// import ProgressPlugin from 'webpack/lib/ProgressPlugin'
+import requireFromString from 'require-from-string'
+import webpack from 'webpack'
+import ProgressPlugin from 'webpack/lib/ProgressPlugin'
+
+
+const errorLog = (error) => {
+  console.log(`Prerender compiler error!',\n${error.message},\n${error.stack}`.red)
+}
+
+const chunkName = 'prerender'
 
 // wow this tricky one
 // this is basicly manualy constructed webpackDevMiddleware
@@ -10,40 +20,34 @@ import requireFromString from 'requireFromString'
 // and pass it to callback :)
 // this way we can have hot reload in server prerender (which is cool)
 // and do not break our client hot server with node restarting
-export default function watchPrerenderCompiler(webpackConfig, callbacks = {}) {
-  const prerenderCompiler = webpack(webpackConfig)
-
+export default function watchPrerenderCompiler({config, onProgress, onDone} = {}) {
+  const prerenderCompiler = webpack(config)
   const fs = new MemoryFS()
 
   prerenderCompiler.outputFileSystem = fs
 
   // listening to webpack progress
-  if (callbacks.progress) {
-    prerenderCompiler.apply(new ProgressPlugin(callbacks.progress))
+  if (onProgress) {
+    prerenderCompiler.apply(new ProgressPlugin(onProgress))
   }
 
   prerenderCompiler.watch({}, (err, stats) => {
     if (err) {
-      console.log(err.stack)
-
-      callbacks.done(err)
+      errorLog(err)
+      onDone(err, null)
       return
     }
     try {
-      const assetsByChunkName = stats.toJson({}).assetsByChunkName
-      const prerenderFileName = assetsByChunkName.prerender[0]
+      const prerenderFileName = stats.toJson({}).assetsByChunkName[chunkName]
       const prerenderFile = path.join(__dirname, 'build', prerenderFileName)
+      const prerenderModule = requireFromString(fs.readFileSync(prerenderFile, 'utf-8'))
 
-      const content = fs.readFileSync(prerenderFile, 'utf-8')
-      const prerender = requireFromString(content)
+      console.log('Prerender compiled sucessfully!'.green)
 
-      console.log('Prerender compiled sucessfully!')
-
-      callbacks.done(null, prerender)
+      onDone(null, prerenderModule)
     } catch (e) {
-      console.log('Prerender compile error!', e.stack)
-
-      callbacks.done(e, null)
+      errorLog(e)
+      onDone(e, null)
     }
   })
 }

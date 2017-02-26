@@ -1,4 +1,5 @@
 import get from 'lodash/get'
+import fileSystem from 'fs'
 
 export default function getStatics() {
   // requiring at runtime is cumbersome :(

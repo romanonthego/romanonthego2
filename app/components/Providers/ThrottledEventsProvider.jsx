@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react'
 import throttle from 'lodash/throttle'
 import remove from 'lodash/remove'
-// import isString from 'lodash/isString'
 
 export default function throttledEventsProvider(Component) {
   return class ThrottledEventsProvider extends PureComponent {

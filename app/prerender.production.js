@@ -1,7 +1,8 @@
 import 'isomorphic-fetch'
 import React from 'react'
 import {renderToString} from 'react-dom/server'
-import {match, createMemoryHistory} from 'react-router'
+// import renderToString from 'preact-render-to-string'
+import {match, createMemoryHistory} from 'react-router/es'
 import {ReduxAsyncConnect, loadOnServer} from 'redux-connect'
 import {Provider} from 'react-redux'
 import Helmet from 'react-helmet'
@@ -45,14 +46,15 @@ const wrapErrorPage = (ErrorPage, store, statics) => (props = {}) => {
 
 const getSideEffects = () => {
   const head = Helmet.rewind()
-  const pageMeta = PageMeta.rewind()
+  // const pageMeta = PageMeta.rewind()
+  // console.log(pageMeta, PageMeta, PageMeta.rewind())
 
   return {
     title: head.title.toString(),
     meta: head.meta.toString(),
     link: head.link.toString(),
     script: head.script.toString(),
-    status: pageMeta.status || 200,
+    status: 200,
   }
 }
 
@@ -77,7 +79,7 @@ export default function prerender(req, res, statics) {
       res.status(500).send(serverError({error: matchError}))
     }
 
-    // react-router redirect on server-side
+    // react-router/es redirect on server-side
     if (redirect) {
       res.redirect(redirect.pathname + redirect.search)
     }

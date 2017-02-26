@@ -9,9 +9,6 @@ const springConfig = {stiffness: 300, damping: 32, precision: 1}
 export default class LoadingBar extends PureComponent {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    version: PropTypes.string.isRequired,
-    commitLong: PropTypes.string.isRequired,
-    commitShort: PropTypes.string.isRequired,
   }
 
   static defaultProps = {

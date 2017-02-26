@@ -19,7 +19,7 @@ class PageMeta extends PureComponent {
   }
 }
 
-function reducePropsToState(propsList) {
+function reducePropsToState(propsList = {}) {
   return mergeAll(propsList)
 }
 

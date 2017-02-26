@@ -25,16 +25,17 @@ export default {
 
   module: {
     rules: [
-      ...config.module.rules,
       ...config.module.rulesProduction,
     ]
   },
 
   plugins: [
+    config.plugins.globals,
     config.plugins.commonChunk,
     config.plugins.extractCss,
-    config.plugins.uglify,
-    config.plugins.globals,
+    config.plugins.babili,
     config.plugins.stats,
+    config.plugins.progressBar,
+    ...(process.env.ANALYZE ? [config.plugins.bundleAnalyzer] : []),
   ],
 }

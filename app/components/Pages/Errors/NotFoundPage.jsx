@@ -1,5 +1,5 @@
 import React, {PropTypes, PureComponent} from 'react'
-import {Link} from 'react-router'
+import {Link} from 'react-router/es'
 import PageMeta from 'app/components/PageMeta'
 import SiteWrap from 'app/components/Layout/SiteWrap'
 import Section from 'app/components/Layout/Section'

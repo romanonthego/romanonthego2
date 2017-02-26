@@ -3,6 +3,8 @@ import webpack from 'webpack'
 import config from './utils/config'
 import node from './utils/node'
 
+console.log(config.resolve)
+
 export default {
   ...node,
 
@@ -11,14 +13,14 @@ export default {
   resolve: config.resolve,
 
   entry: {
-    server: './server/development.js',
+    prerender: './app/prerender.production.js',
   },
 
   output: {
     filename: config.output.filename,
     path: config.output.path,
     publicPath: config.output.publicPath,
-    library: 'server',
+    library: 'prerender',
     libraryTarget: 'commonjs2',
   },
 

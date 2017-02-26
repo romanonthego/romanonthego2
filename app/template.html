@@ -7,9 +7,17 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   {{#GLOBALS.GA}}
-    <link rel="dns-prefetch" href="//www.google-analytics.com/">
     <link rel="prefetch" href="https://www.google-analytics.com/analytics.js">
   {{/GLOBALS.GA}}
+
+  {{#statics.common}}
+    <link rel="prefetch" href="/assets/{{statics.common}}">
+  {{/statics.common}}
+
+  {{#statics.app}}
+    <link rel="prefetch" href="/assets/{{statics.app}}">
+  {{/statics.app}}
+
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css?family=Overpass+Mono:300" rel="stylesheet">
@@ -42,11 +50,11 @@
   <main id="app">{{{html}}}</main>
 
   {{#statics.common}}
-    <script src="/assets/{{statics.common}}" async></script>
+    <script src="/assets/{{statics.common}}"></script>
   {{/statics.common}}
 
   {{#statics.app}}
-    <script src="/assets/{{statics.app}}" async></script>
+    <script src="/assets/{{statics.app}}"></script>
   {{/statics.app}}
 
   {{#GLOBALS.GA}}

@@ -41,7 +41,7 @@ export default class ControlPanel extends PureComponent {
           </li>
           <li>
             <ExternalLink
-              to={`https://github.com/romanonthego/romanonthego/commit/${commitLong}`}
+              to={`https://github.com/romanonthego/romanonthego2/commit/${commitLong}`}
               data-hide-tooltip
             >
               #{commitShort}

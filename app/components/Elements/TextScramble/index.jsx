@@ -20,7 +20,7 @@ export default class TextScamble extends PureComponent {
   static propTypes = {
     children: PropTypes.node.isRequired,
     dudClassName: PropTypes.string,
-    element: PropTypes.oneOf([PropTypes.func, PropTypes.string]),
+    element: PropTypes.oneOfType([PropTypes.func, PropTypes.string]),
     onDone: PropTypes.func,
     onDoneTimeout: PropTypes.number,
     chars: PropTypes.string,
